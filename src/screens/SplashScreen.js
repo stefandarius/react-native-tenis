@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
-import Login from '../components/Login';
+import LoginScreen from './LoginScreen';
 
 const SplashScreen = () => {
 
@@ -19,7 +19,6 @@ const SplashScreen = () => {
     return (
         <View style={styles.container}>
             <Image source={logo}/>
-            {visible ? <ActivityIndicator size={'large'}/> : <Login/>}
             <Text style={styles.textStyle}>{nume}</Text>
         </View>
     );
