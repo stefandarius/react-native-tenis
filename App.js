@@ -14,13 +14,13 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-import SplashScreen from './src/screens/SplashScreen';
+import LoginScreen from './src/screens/LoginScreen';
 
 const App: () => React$Node = () => {
     return (
         <>
             <StatusBar barStyle="dark-content" backgroundColor="white"/>
-            <SplashScreen/>
+            <LoginScreen/>
         </>
     );
 };
