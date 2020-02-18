@@ -15,12 +15,14 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import LoginScreen from './src/screens/LoginScreen';
+import DetaliiAntrenorScreen from "./src/screens/DetaliiAntrenorScreen";
 
 const App: () => React$Node = () => {
     return (
         <>
             <StatusBar barStyle="dark-content" backgroundColor="white"/>
-            <LoginScreen/>
+            <DetaliiAntrenorScreen/>
+            {/*<LoginScreen/>*/}
         </>
     );
 };
