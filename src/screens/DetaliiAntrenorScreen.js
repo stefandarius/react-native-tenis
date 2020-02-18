@@ -11,7 +11,7 @@ const DetaliiAntrenorScreen = (props) => {
             <StatusBar barStyle="light-content" backgroundColor="lightblue"/>
             <Header
                 leftComponent={{icon: 'menu', color: '#fff'}}
-                centerComponent={{text: 'MY TITLE', style: {color: '#fff', fontWeight: "bold"}}}
+                centerComponent={{text: 'DETALII ANTRENOR', style: {color: '#fff', fontWeight: "bold"}}}
                 rightComponent={{icon: 'home', color: '#fff'}}
                 backgroundColor="lightblue"
             />
