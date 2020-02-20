@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {StatusBar, StyleSheet, View} from "react-native";
+import {Picker, StatusBar, StyleSheet, View} from "react-native";
 import {Header, Input} from "react-native-elements";
 import Spacer from "../components/Spacer";
 //import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const DetaliiAntrenorScreen = (props) => {
+
+    const [nationalitate, setNationalitate] = useState("");
 
     return (
         <View style={styles.container}>
@@ -21,6 +23,14 @@ const DetaliiAntrenorScreen = (props) => {
                 <Spacer/>
                 <Input placeholder="Prenume" containerStyle={styles.inputStyle}/>
                 <Spacer/>
+                <Picker
+                    selectedValue={nationalitate}
+                    onValueChange={(itemValue, itemIndex) => {
+                        setNationalitate(itemValue);
+                    }}>
+                    <Picker.Item label="Romana" value="romana"/>
+                    <Picker.Item label="Francez" value="francez" />
+                </Picker>
             </View>
         </View>
     );
