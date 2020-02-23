@@ -3,15 +3,14 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
 
     const [visible, setVisible] = useState(true);
     const [nume, setNume] = useState('Fana');
 
     useEffect(() => {
         setTimeout(() => {
-            setVisible(false);
-            setNume('Cata');
+            navigation.navigate('Log');
         }, 4000);
     }, []);
 

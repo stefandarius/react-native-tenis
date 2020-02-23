@@ -1,20 +1,31 @@
-import React from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
-
+import React, {useState} from 'react';
+import {StyleSheet, View, Image, Alert, ActivityIndicator} from 'react-native';
 import logo from '../assets/logo.png';
 import { Input, Button } from 'react-native-elements';
 import SportivItem from '../components/SportivItem';
+import LabelHeader from "../components/LabelHeader";
 
-const LoginScreen = (props) => {
+const LoginScreen = () => {
+
+    const [userName, setUsername] = useState("");
+    const [pressed, setPressed] = useState(false);
+
     const onPressHandler = () => {
-        Alert.alert('login')
+        setPressed(true);
+        setTimeout(() => {
+            Alert.alert("Am intrat!");
+            setPressed(false);
+        }, 2000)
     };
+
+
+
     return (<View style={styles.container}>
-        <SportivItem />
         <Image style={styles.imageStyle} source={logo} />
-        <Input placeholder="Email" label="Email" />
+        <LabelHeader textSize={48} style={{paddingVertical: 20, fontWeight: 'bold'}}>LOGIN</LabelHeader>
+        <Input placeholder="Email" label="Email" onChangeText={value => setUsername(value)}/>
         <Input secureTextEntry={true} placeholder="Parola" label="Parola" />
-        <Button onPress={onPressHandler} containerStyle={styles.buttonStyle} title="Login" />
+        <Button onPress={onPressHandler} containerStyle={styles.buttonStyle} title="Login" loading={pressed}/>
     </View>)
 };
 

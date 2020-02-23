@@ -13,16 +13,41 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
 import LoginScreen from './src/screens/LoginScreen';
-import SportiviList from './src/components/SportiviList';
+import SportiviList from "./src/components/SportiviList";
+import SplashScreen from "./src/screens/SplashScreen";
+import {createStackNavigator} from "react-navigation-stack";
+import {createAppContainer, createSwitchNavigator} from "react-navigation";
 
-const App: () => React$Node = () => {
+const Login = createStackNavigator({
+    Splash: {
+        screen: SplashScreen
+    },
+    Log: {
+        screen: LoginScreen
+    },
+});
+
+const MainNavigator = createStackNavigator({
+   Lista: {
+       screen: SportiviList
+   }
+});
+
+const Switch = createSwitchNavigator({
+    Login: Login,
+    Main: MainNavigator
+}, {
+    initialRouteName: 'Login'
+});
+
+const AppContainer = createAppContainer(Switch);
+
+const App = () => {
     return (
-        <>
+        <AppContainer>
             <StatusBar barStyle="dark-content" backgroundColor="white"/>
-            <SportiviList/>
-        </>
+        </AppContainer>
     );
 };
 
