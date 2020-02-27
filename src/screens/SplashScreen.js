@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
 
 const SplashScreen = ({navigation}) => {
