@@ -12,17 +12,41 @@ import {
     StatusBar,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import LoginScreen from './src/screens/LoginScreen';
 import SportiviList from './src/components/SportiviList';
+import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
+import SplashScreen from './src/screens/SplashScreen';
 
-const App: () => React$Node = () => {
+const LoginNavigator = createStackNavigator({
+    Login: {
+        screen: LoginScreen
+    },
+    Splash: {
+        screen: SplashScreen
+    }
+}, {
+    initialRouteName : 'Splash'
+});
+
+const MainNavigator=createStackNavigator({
+    ListaSportivi:{
+        screen: SportiviList,
+    }
+});
+
+const Switch=createSwitchNavigator({
+    Login:LoginNavigator,
+    Main:MainNavigator
+},{
+    initialRouteName : 'Login'
+});
+
+const AppContainer=createAppContainer(Switch);
+const App= () => {
     return (
-        <>
-            <StatusBar barStyle="dark-content" backgroundColor="white"/>
-            <SportiviList/>
-        </>
+      <LoginScreen />
     );
 };
 
