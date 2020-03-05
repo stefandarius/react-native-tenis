@@ -1,32 +1,42 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from "react-native";
-import {withNavigation} from 'react-navigation'
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import {withNavigation} from "react-navigation";
+import PropTypes from "prop-types";
 
-const HyperLink = ({title,containerStyle,textStyle,route,data,navigation}) =>{
-    return <TouchableOpacity style={[styles.container,containerStyle]} onPress={()=>navigation.navigate(route, data)}>
-        <Text style={[styles.text,textStyle]}>{title}</Text>
-        
-    </TouchableOpacity>
+const HyperLink = ({title, route, container, textStyle, data, navigation}) => {
+    return (
+        <TouchableOpacity style={[styles.container, container]} onPress={() => {
+            navigation.navigate(route, data);
+        }}>
+            <Text style={[styles.text, textStyle]}>{title}</Text>
+        </TouchableOpacity>
+    );
 };
 
 HyperLink.defaultProps = {
-    title: 'here it goes the title pop', 
+    title: 'Title',
     route: '',
-    data:{},
-    textStyle:{},
-    containerStyle:{},
+    data: {},
+    textStyle: {},
+    container: {}
+};
 
+HyperLink.propTypes = {
+    title: PropTypes.string,
+    route: PropTypes.string,
+    data: PropTypes.object,
+    textStyle: PropTypes.object,
+    container: PropTypes.object
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
 
     },
-    text:{
-        fontWeight:'bold',
-        color:'cyan',
+    text: {
+        fontWeight: 'bold',
+        color: 'cyan'
     }
 });
-
 
 export default withNavigation(HyperLink);

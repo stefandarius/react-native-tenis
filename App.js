@@ -9,7 +9,7 @@
 import React from 'react';
 import {
     StyleSheet,
-    StatusBar,
+    StatusBar, View, SafeAreaView,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -18,19 +18,19 @@ import SportiviList from "./src/components/SportiviList";
 import SplashScreen from "./src/screens/SplashScreen";
 import {createStackNavigator} from "react-navigation-stack";
 import {createAppContainer, createSwitchNavigator} from "react-navigation";
-import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+import RegisterScreen from "./src/screens/RegisterScreen";
 
 const Login = createStackNavigator({
     Log: {
         screen: LoginScreen,
-        navigationOptions:{
-            headerShown:false
+        navigationOptions: {
+            headerShown: false
         }
     },
-    ForgotPass: {
-        screen: ForgotPasswordScreen,
-        navigationOptions:{
-            title : 'Recuperare parola',
+    Reg: {
+        screen: RegisterScreen,
+        navigationOptions: {
+            headerShown: false
         }
     }
 });
@@ -55,9 +55,10 @@ const AppContainer = createAppContainer(Switch);
 
 const App = () => {
     return (
-        <AppContainer>
+        <SafeAreaView style={{flex:1}}>
             <StatusBar barStyle="dark-content" backgroundColor="white"/>
-        </AppContainer>
+            <AppContainer/>
+        </SafeAreaView>
     );
 };
 
