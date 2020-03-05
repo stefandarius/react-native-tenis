@@ -1,33 +1,39 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
-
+import { StyleSheet, View, Image, Alert, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import logo from '../assets/logo.png';
 import { Input, Button } from 'react-native-elements';
 import SportivItem from '../components/SportivItem';
-import LabelHeader from '../components/LabelHeader';
+import LabelHeader from "../components/LabelHeader";
+import { Directions } from 'react-native-gesture-handler';
+import HyperLink from '../components/HyperLink';
+import { color } from 'react-native-reanimated';
 
+const LoginScreen = () => {
 
-
-const LoginScreen = (props) => {
-
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [userName, setUsername] = useState("");
+    const [pressed, setPressed] = useState(false);
 
     const onPressHandler = () => {
-        setLoading(true);
+        setPressed(true);
         setTimeout(() => {
-            Alert.alert('Ne-am logat');
-            setLoading(false);
-        }, 5000);
+            Alert.alert("Am intrat!");
+            setPressed(false);
+        }, 2000)
     };
+
+
+
     return (<View style={styles.container}>
-        {/* <SportivItem /> */}
-        <LabelHeader > catalin </LabelHeader>
         <Image style={styles.imageStyle} source={logo} />
-        <Input value={email} placeholder="Email" label="Email" onChangeText={(value) => setEmail(value)} />
-        <Input value={password} secureTextEntry={true} placeholder="Parola" label="Parola" onChangeText={(value) => setPassword(value)} />
-        <Button onPress={onPressHandler} containerStyle={styles.buttonStyle} title="Login" loading={loading} />
+        <LabelHeader textSize={48} style={{ paddingVertical: 20, fontWeight: 'bold' }}>LOGIN</LabelHeader>
+        <Input placeholder="Email" label="Email" onChangeText={value => setUsername(value)} />
+        <Input secureTextEntry={true} placeholder="Parola" label="Parola" />
+        <Button onPress={onPressHandler} containerStyle={styles.buttonStyle} title="Login" loading={pressed} />
+        <View style={styles.rowStyle}>
+            <HyperLink title="inregistrare" route='Register' />
+            <HyperLink textStyle={{ color: 'red' }} title='forgot pass' route='ForgotPass' />
+
+        </View>
     </View>)
 };
 
@@ -47,6 +53,12 @@ const styles = StyleSheet.create({
     buttonStyle: {
         marginTop: 10,
         width: '100%',
+    },
+    rowStyle: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '70%',
+        paddingVertical: 20,
     }
 });
 

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const Spacer = ({marginVertical,children,style})=>{
     const marginStyle=()=>{
         return {
-            marginVertical:marginVertical?marginVertical:5,
+            marginVertical: marginVertical ? marginVertical : 5,
         }
     };
     return (<View style={[styles.container,marginStyle(),style]}>

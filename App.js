@@ -12,41 +12,52 @@ import {
     StatusBar,
 } from 'react-native';
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import LoginScreen from './src/screens/LoginScreen';
-import SportiviList from './src/components/SportiviList';
-import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
-import SplashScreen from './src/screens/SplashScreen';
+import SportiviList from "./src/components/SportiviList";
+import SplashScreen from "./src/screens/SplashScreen";
+import {createStackNavigator} from "react-navigation-stack";
+import {createAppContainer, createSwitchNavigator} from "react-navigation";
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 
-const LoginNavigator = createStackNavigator({
-    Login: {
-        screen: LoginScreen
+const Login = createStackNavigator({
+    Log: {
+        screen: LoginScreen,
+        navigationOptions:{
+            headerShown:false
+        }
     },
+    ForgotPass: {
+        screen: ForgotPasswordScreen,
+        navigationOptions:{
+            title : 'Recuperare parola',
+        }
+    }
+});
+
+const MainNavigator = createStackNavigator({
+   Lista: {
+       screen: SportiviList
+   }
+});
+
+const Switch = createSwitchNavigator({
     Splash: {
         screen: SplashScreen
-    }
+    },
+    Login: Login,
+    Main: MainNavigator,
 }, {
-    initialRouteName : 'Splash'
+    initialRouteName: 'Splash'
 });
 
-const MainNavigator=createStackNavigator({
-    ListaSportivi:{
-        screen: SportiviList,
-    }
-});
+const AppContainer = createAppContainer(Switch);
 
-const Switch=createSwitchNavigator({
-    Login:LoginNavigator,
-    Main:MainNavigator
-},{
-    initialRouteName : 'Login'
-});
-
-const AppContainer=createAppContainer(Switch);
-const App= () => {
+const App = () => {
     return (
-      <LoginScreen />
+        <AppContainer>
+            <StatusBar barStyle="dark-content" backgroundColor="white"/>
+        </AppContainer>
     );
 };
 
