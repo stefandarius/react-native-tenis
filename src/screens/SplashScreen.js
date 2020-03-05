@@ -11,7 +11,7 @@ const SplashScreen = ({navigation}) => {
     useEffect(() => {
         setTimeout(() => {
             navigation.navigate('Log');
-        }, 4000);
+        }, 2000);
     }, []);
 
     return (
