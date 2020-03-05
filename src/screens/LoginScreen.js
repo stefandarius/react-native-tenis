@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Image, Alert, TouchableOpacity, Text, StatusBar} from 'react-native';
 import logo from '../assets/logo.png';
 import { Input, Button } from 'react-native-elements';
-import SportivItem from '../components/SportivItem';
 import LabelHeader from "../components/LabelHeader";
 import HyperLink from "../components/HyperLink";
 
@@ -53,12 +52,6 @@ const styles = StyleSheet.create({
     buttonStyle: {
         marginTop: 10,
         width: '100%',
-    },
-    rowStyle: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '70%',
-        paddingVertical: 20,
     }
 });
 

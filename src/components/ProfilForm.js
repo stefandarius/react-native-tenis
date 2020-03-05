@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from "react-native";
+import {Picker, StyleSheet, View} from "react-native";
 import {ButtonGroup, Input} from "react-native-elements";
 import Spacer from "./Spacer";
 import DatePicker from "react-native-datepicker";
