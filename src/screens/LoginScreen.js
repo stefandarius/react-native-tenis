@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Image, Alert, TouchableOpacity, Text, StatusBar} from 'react-native';
 import logo from '../assets/logo.png';
 import { Input, Button } from 'react-native-elements';
-import SportivItem from '../components/SportivItem';
 import LabelHeader from "../components/LabelHeader";
 import HyperLink from "../components/HyperLink";
 
@@ -21,14 +20,15 @@ const LoginScreen = () => {
 
     return (<View style={styles.container}>
         <Image style={styles.imageStyle} source={logo} />
-        <LabelHeader textSize={48} style={{paddingVertical: 20, fontWeight: 'bold'}}>LOGIN</LabelHeader>
-        <Input placeholder="Email" label="Email" onChangeText={value => setUsername(value)}/>
+        <LabelHeader textSize={48} style={{ paddingVertical: 20, fontWeight: 'bold' }}>LOGIN</LabelHeader>
+        <Input placeholder="Email" label="Email" onChangeText={value => setUsername(value)} />
         <Input secureTextEntry={true} placeholder="Parola" label="Parola" />
         <Button onPress={onPressHandler} containerStyle={styles.buttonStyle} title="Login" loading={pressed}/>
         <View style={styles.rowStyle}>
             <HyperLink title={"Register"} route={'Reg'} textStyle={{color: 'red'}}/>
-            <HyperLink title={"Forgot password"} route={''}/>
+            <HyperLink title={"Forgot password"} route={'Profil'}/>
         </View>
+        
     </View>)
 };
 

@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
+import {getAppConfig} from "../network/ApiAxios";
 
 const SplashScreen = ({navigation}) => {
 
@@ -9,9 +10,14 @@ const SplashScreen = ({navigation}) => {
     const [nume, setNume] = useState('Fana');
 
     useEffect(() => {
-        setTimeout(() => {
-            navigation.navigate('Log');
-        }, 4000);
+        const runAsync = async () => {
+            const config = await getAppConfig();
+            console.log('SplashScreen', config);
+            setTimeout(() => {
+                navigation.navigate('Log');
+            }, 2000);
+        };
+        runAsync();
     }, []);
 
     return (
