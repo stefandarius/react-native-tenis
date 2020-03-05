@@ -22,7 +22,7 @@ const RegisterScreen = ({navigation}) => {
         }
     };
 
-    let err = error ? <Text style={{color: 'red'}}>Parola incorecta</Text> : null
+    let err = error ? <Text style={{color: 'red'}}>Parola incorecta</Text> : null;
 
     return (
         <View style={styles.container}>

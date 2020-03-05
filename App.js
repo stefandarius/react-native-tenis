@@ -19,6 +19,7 @@ import SplashScreen from "./src/screens/SplashScreen";
 import {createStackNavigator} from "react-navigation-stack";
 import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import RegisterScreen from "./src/screens/RegisterScreen";
+import ProfilForm from "./src/components/ProfilForm";
 
 const Login = createStackNavigator({
     Log: {
@@ -29,6 +30,12 @@ const Login = createStackNavigator({
     },
     Reg: {
         screen: RegisterScreen,
+        navigationOptions: {
+            headerShown: false
+        }
+    },
+    Profil: {
+        screen: ProfilForm,
         navigationOptions: {
             headerShown: false
         }

@@ -27,7 +27,7 @@ const LoginScreen = () => {
         <Button onPress={onPressHandler} containerStyle={styles.buttonStyle} title="Login" loading={pressed}/>
         <View style={styles.rowStyle}>
             <HyperLink title={"Register"} route={'Reg'} textStyle={{color: 'red'}}/>
-            <HyperLink title={"Forgot password"} route={''}/>
+            <HyperLink title={"Forgot password"} route={'Profil'}/>
         </View>
     </View>)
 };
