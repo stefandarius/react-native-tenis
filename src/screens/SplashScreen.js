@@ -1,21 +1,26 @@
 /* eslint-disable */
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {ActivityIndicator, Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
 import {getAppConfig} from "../network/ApiAxios";
+import AppContext from "../context/AppContext";
 
 const SplashScreen = ({navigation}) => {
 
     const [visible, setVisible] = useState(true);
     const [nume, setNume] = useState('Fana');
 
+    const {setConfig} = useContext(AppContext);
+
     useEffect(() => {
         const runAsync = async () => {
             const config = await getAppConfig();
-            console.log('SplashScreen', config);
+            const response = config.data;
+            const {data, code, message} = response;
+            setConfig(data);
             setTimeout(() => {
                 navigation.navigate('Log');
-            }, 2000);
+            }, 1000);
         };
         runAsync();
     }, []);

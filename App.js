@@ -20,6 +20,7 @@ import {createStackNavigator} from "react-navigation-stack";
 import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import ProfilForm from "./src/components/ProfilForm";
+import {TenisProvider} from "./src/context/AppContext";
 
 const Login = createStackNavigator({
     Log: {
@@ -62,10 +63,12 @@ const AppContainer = createAppContainer(Switch);
 
 const App = () => {
     return (
-        <SafeAreaView style={{flex:1}}>
-            <StatusBar barStyle="dark-content" backgroundColor="white"/>
-            <AppContainer/>
-        </SafeAreaView>
+        <TenisProvider>
+            <SafeAreaView style={{flex:1}}>
+                <StatusBar barStyle="dark-content" backgroundColor="white"/>
+                <AppContainer/>
+            </SafeAreaView>
+        </TenisProvider>
     );
 };
 

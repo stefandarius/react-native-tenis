@@ -1,13 +1,16 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Picker, StyleSheet, View} from "react-native";
 import {ButtonGroup, Input} from "react-native-elements";
 import Spacer from "./Spacer";
 import DatePicker from "react-native-datepicker";
+import AppContext from "../context/AppContext";
 
 const ProfilForm = () => {
 
     const [gen, setGen] = useState(0);
-    const [data, setData] = useState(null);
+    const [dataNastere, setDataNastere] = useState(null);
+
+    const {data} = useContext(AppContext);
 
     const updateGender = (selectedIndex) => {
         setGen(selectedIndex);
@@ -27,8 +30,8 @@ const ProfilForm = () => {
                 mode={"date"}
                 showIcon={false}
                 style={{width: '95%'}}
-                onDateChange={date => setData(date)}
-                date={data}
+                onDateChange={date => setDataNastere(date)}
+                date={dataNastere}
             />
             <ButtonGroup buttons={['Barbat', 'Femeie']} onPress={updateGender} selectedIndex={selectedIndex} />
         </View>
