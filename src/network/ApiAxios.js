@@ -14,3 +14,7 @@ export const getAppConfig = async () => {
     return await instance.get('config');
 };
 
+export const createUser = async (email, password, accountType) => {
+    return await instance.post('users', {email, password, type: accountType === 0 ? 'antrenor' : 'sportiv'});
+};
+

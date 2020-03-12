@@ -1,14 +1,21 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, View, Image, Alert, TouchableOpacity, Text, StatusBar} from 'react-native';
 import logo from '../assets/logo.png';
 import { Input, Button } from 'react-native-elements';
 import LabelHeader from "../components/LabelHeader";
 import HyperLink from "../components/HyperLink";
+import AppContext from "../context/AppContext";
 
 const LoginScreen = () => {
 
     const [userName, setUsername] = useState("");
     const [pressed, setPressed] = useState(false);
+
+    const {data} = useContext(AppContext);
+
+    useEffect(() => {
+        console.log("LoginScreen", data);
+    }, []);
 
     const onPressHandler = () => {
         setPressed(true);

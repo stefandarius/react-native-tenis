@@ -17,6 +17,7 @@ const SplashScreen = ({navigation}) => {
             const config = await getAppConfig();
             const response = config.data;
             const {data, code, message} = response;
+            console.log("SplashScreen", data);
             setConfig(data);
             setTimeout(() => {
                 navigation.navigate('Log');
