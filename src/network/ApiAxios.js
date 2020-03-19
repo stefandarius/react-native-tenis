@@ -18,3 +18,7 @@ export const createUser = async (email, password, accountType) => {
     return await instance.post('users', {email, password, type: accountType === 0 ? 'antrenor' : 'sportiv'});
 };
 
+export const getLocalitatiByJudetId = async (id, pageNumber) => {
+    return await instance.get(`localitati?filter[judet]=${id}&page=${pageNumber}`);
+};
+

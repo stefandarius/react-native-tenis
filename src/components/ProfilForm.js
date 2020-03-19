@@ -4,6 +4,8 @@ import {ButtonGroup, Input} from "react-native-elements";
 import Spacer from "./Spacer";
 import DatePicker from "react-native-datepicker";
 import AppContext from "../context/AppContext";
+import {getLocalitatiByJudetId} from "../network/ApiAxios";
+import WaitAction from "./WaitAction";
 
 const ProfilForm = () => {
 
@@ -11,8 +13,8 @@ const ProfilForm = () => {
     const [dataNastere, setDataNastere] = useState(null);
     const [judet, setJudet] = useState(0);
     const [localitate, setLocalitate] = useState(0);
-    const [localitati, setLocalitati] = useState([{id:1, nume: "Calarasi", judet: 1}, {id:2, nume: "Modelu", judet: 1},
-        {id:3, nume: "Bucale", judet: 2}, {id:4, nume: "Constanta", judet: 2}]);
+    const [localitati, setLocalitati] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const {data} = useContext(AppContext);
 
@@ -27,14 +29,37 @@ const ProfilForm = () => {
     };
 
     const renderLocalitati = () => {
-        return localitati.filter((item) => item.judet === judet)
-            .map((item) => {
-            return <Picker.Item label={item.nume} value={item.id} key={item.id}/>;
-        });
+        return localitati.map((item) => {
+                return <Picker.Item label={item.nume} value={item.id} key={item.id}/>;
+            });
+    };
+
+    const fetchLocalitati = async (id) => {
+        setLoading(true);
+        let allData = [];
+        let morePagesAvailable = true;
+        let currentPage = 0;
+        while (morePagesAvailable) {
+            currentPage++;
+            const response = await getLocalitatiByJudetId(id, currentPage);
+            const {data, success/*, code, message*/} = response.data;
+            //console.log('dosareLista', data);
+            if (success) {
+                const {localitatis, _meta} = data;
+                let total = _meta.pageCount;
+                localitatis.forEach(e => allData.push(e));//.unshift(e));
+                morePagesAvailable = currentPage <= total;
+            } else {
+                break;
+            }
+        }
+        setLocalitati(allData);
+        setLoading(false);
     };
 
     return (
         <View style={styles.container}>
+            <WaitAction enabled={loading} />
             <Input label={"Nume"} />
             <Input label={"Prenume"} />
             <Input label={"Telefon"} keyboardType={"numeric"} />
@@ -44,8 +69,9 @@ const ProfilForm = () => {
                     style={styles.picker}
                     itemStyle={styles.pickerItem}
                     selectedValue={judet}
-                    onValueChange={(itemValue) => {
+                    onValueChange={async (itemValue) => {
                         setJudet(itemValue);
+                        fetchLocalitati(itemValue);
                         console.log(itemValue);
                     }}
                 >
