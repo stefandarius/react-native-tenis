@@ -22,3 +22,7 @@ export const getLocalitatiByJudetId = async (id, pageNumber) => {
     return await instance.get(`localitati?filter[judet]=${id}&page=${pageNumber}`);
 };
 
+export const createSportiv = async (authorization, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => {
+    return await instance.post('sportivi', {headers: {'Authorization': `Bearer ${authorization}`}, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
+};
+
