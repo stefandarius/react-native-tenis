@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Picker, ScrollView, StatusBar, StyleSheet, View} from "react-native";
-import {Button, ButtonGroup, Header, Input} from "react-native-elements";
+import {Picker, ScrollView, StyleSheet, View} from "react-native";
+import {Button, ButtonGroup, Input, Text} from "react-native-elements";
 import Spacer from "./Spacer";
-import DatePicker from "react-native-datepicker";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 import AppContext from "../context/AppContext";
 import {createSportiv, getLocalitatiByJudetId} from "../network/ApiAxios";
 import WaitAction from "./WaitAction";
@@ -11,7 +11,7 @@ import LabelHeader from "./LabelHeader";
 const ProfilForm = () => {
 
     const [gen, setGen] = useState(0);
-    const [dataNastere, setDataNastere] = useState(null);
+    const [dataNastere, setDataNastere] = useState(new Date());
     const [judet, setJudet] = useState(0);
     const [localitate, setLocalitate] = useState(0);
     const [localitati, setLocalitati] = useState([]);
@@ -109,21 +109,22 @@ const ProfilForm = () => {
         <View style={styles.container}>
             <ScrollView style={{width: "100%"}} >
                 <Spacer marginVertical={20}/>
-                <LabelHeader textSize={24}>Detalii profil</LabelHeader>
+                <LabelHeader textSize={24} style={{fontWeight: 'bold'}}>Detalii profil</LabelHeader>
                 <Spacer marginVertical={20}/>
                 <Input label={"Nume"}/>
                 <Input label={"Prenume"}/>
                 <Input label={"Telefon"} keyboardType={"numeric"}/>
                 <Spacer/>
-                <DatePicker
+                <RNDateTimePicker
                     placeholder={"Data nasterii"}
                     format={"DD.MM.YYYY"}
                     mode={"date"}
-                    showIcon={false}
+                    display={"calendar"}
+                    maximumDate={new Date()}
                     style={{width: '100%', paddingHorizontal: 10}}
-                    onDateChange={date => setDataNastere(date)}
-                    date={dataNastere}
-                />
+                    onChange={date => setDataNastere(date)}
+                    value={new Date()}
+                 />
                 <ButtonGroup buttons={['Barbat', 'Femeie']} onPress={setGen} selectedIndex={gen}/>
                 <Spacer marginVertical={10}/>
                 {detaliiSportivi(true)}
@@ -157,7 +158,7 @@ const ProfilForm = () => {
                     </Picker>
                 </View>
                 <Spacer/>
-                <Button title={"SAVE"} onPress={saveProfile}/>
+                <Button containerStyle={styles.buttonStyle} title={"SAVE"} onPress={saveProfile}/>
                 <WaitAction enabled={loading}/>
             </ScrollView>
         </View>
@@ -188,6 +189,17 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         width: '100%'
     },
+    buttonStyle: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.36,
+        shadowRadius: 6.68,
+        elevation: 11,
+        marginBottom: 10
+    }
 });
 
 export default ProfilForm;

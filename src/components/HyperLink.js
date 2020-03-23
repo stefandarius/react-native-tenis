@@ -31,11 +31,10 @@ HyperLink.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-
+        marginHorizontal: 20
     },
     text: {
         fontWeight: 'bold',
-        color: 'cyan'
     }
 });
 
