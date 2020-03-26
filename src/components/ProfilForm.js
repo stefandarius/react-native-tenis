@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Picker, ScrollView, StyleSheet, View} from "react-native";
+import {Alert, Picker, ScrollView, StyleSheet, View} from "react-native";
 import {Button, ButtonGroup, Input, Text} from "react-native-elements";
 import Spacer from "./Spacer";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
@@ -7,11 +7,17 @@ import AppContext from "../context/AppContext";
 import {createSportiv, getLocalitatiByJudetId} from "../network/ApiAxios";
 import WaitAction from "./WaitAction";
 import LabelHeader from "./LabelHeader";
+import AsyncStorage from "@react-native-community/async-storage";
 
-const ProfilForm = () => {
+const ProfilForm = ({navigation}) => {
 
+    const [nume, setNume] = useState('');
+    const [prenume, setPrenume] = useState('');
+    const [telefon, setTelefon] = useState('');
     const [gen, setGen] = useState(0);
     const [dataNastere, setDataNastere] = useState(new Date());
+    const [greutate, setGreutate] = useState('');
+    const [inaltime, setInaltime] = useState('');
     const [judet, setJudet] = useState(0);
     const [localitate, setLocalitate] = useState(0);
     const [localitati, setLocalitati] = useState([]);
@@ -20,6 +26,14 @@ const ProfilForm = () => {
     const [nivel, setNivel] = useState(0);
 
     const {data} = useContext(AppContext);
+
+    const storeData = async (profil) => {
+        try {
+            await AsyncStorage.setItem('@profil', JSON.stringify(profil))
+        } catch (e) {
+            console.error('LoginScreen', e);
+        }
+    };
 
     useEffect(() => {
 
@@ -71,15 +85,23 @@ const ProfilForm = () => {
         setLoading(false);
     };
 
-    const saveProfile = () => {
-        createSportiv()
+    const saveProfile = async () => {
+        const registerResponse = await createSportiv(nume, prenume, '18.05.2001', nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+        const response = registerResponse.data;
+        const {data, success, message} = response;
+        if(success) {
+            await storeData(data);
+            navigation.pop();
+        } else {
+            Alert.alert(message);
+        }
     };
 
     const detaliiSportivi = (afiseaza) => {
         return afiseaza ?
             <View>
-                <Input keyboardType={"numeric"} label="Inaltime"/>
-                <Input keyboardType={"numeric"} label="Greutate"/>
+                <Input value={inaltime} keyboardType={"numeric"} label="Inaltime" onChangeText={setInaltime}/>
+                <Input value={greutate} keyboardType={"numeric"} label="Greutate" onChangeText={setGreutate}/>
                 <View style={styles.dropDown}>
                     <Picker
                         style={styles.picker}
@@ -111,9 +133,9 @@ const ProfilForm = () => {
                 <Spacer marginVertical={20}/>
                 <LabelHeader textSize={24} style={{fontWeight: 'bold'}}>Detalii profil</LabelHeader>
                 <Spacer marginVertical={20}/>
-                <Input label={"Nume"}/>
-                <Input label={"Prenume"}/>
-                <Input label={"Telefon"} keyboardType={"numeric"}/>
+                <Input value={nume} label={"Nume"} onChangeText={setNume}/>
+                <Input value={prenume} label={"Prenume"} onChangeText={setPrenume}/>
+                <Input value={telefon} label={"Telefon"} keyboardType={"numeric"} onChangeText={setTelefon}/>
                 <Spacer/>
                 <RNDateTimePicker
                     placeholder={"Data nasterii"}

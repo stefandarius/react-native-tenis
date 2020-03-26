@@ -21,8 +21,9 @@ import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import ProfilForm from "./src/components/ProfilForm";
 import {TenisProvider} from "./src/context/AppContext";
+import MainScreen from "./src/screens/MainScreen";
 
-const Login = createStackNavigator({
+const LoginNavigator = createStackNavigator({
     Log: {
         screen: LoginScreen,
         navigationOptions: {
@@ -34,6 +35,15 @@ const Login = createStackNavigator({
         navigationOptions: {
             headerShown: false
         }
+    }
+});
+
+const MainNavigator = createStackNavigator({
+    Lista: {
+        screen: SportiviList
+    },
+    MainS: {
+        screen: MainScreen
     },
     Profil: {
         screen: ProfilForm,
@@ -41,19 +51,15 @@ const Login = createStackNavigator({
             headerShown: false
         }
     }
-});
-
-const MainNavigator = createStackNavigator({
-   Lista: {
-       screen: SportiviList
-   }
+}, {
+    initialRouteName: 'MainS'
 });
 
 const Switch = createSwitchNavigator({
     Splash: {
         screen: SplashScreen
     },
-    Login: Login,
+    Login: LoginNavigator,
     Main: MainNavigator,
 }, {
     initialRouteName: 'Splash'
@@ -64,7 +70,7 @@ const AppContainer = createAppContainer(Switch);
 const App = () => {
     return (
         <TenisProvider>
-            <SafeAreaView style={{flex:1}}>
+            <SafeAreaView style={{flex: 1}}>
                 <StatusBar barStyle="dark-content" backgroundColor="white"/>
                 <AppContainer/>
             </SafeAreaView>

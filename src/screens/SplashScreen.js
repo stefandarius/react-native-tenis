@@ -1,16 +1,25 @@
 /* eslint-disable */
 import React, {useContext, useEffect, useState} from 'react';
-import {ActivityIndicator, Image, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
 import {getAppConfig} from "../network/ApiAxios";
 import AppContext from "../context/AppContext";
+import AsyncStorage from '@react-native-community/async-storage';
 
 const SplashScreen = ({navigation}) => {
 
     const [visible, setVisible] = useState(true);
     const [nume, setNume] = useState('Fana');
 
-    const {setConfig} = useContext(AppContext);
+    const {setConfig, setUser} = useContext(AppContext);
+
+    const getData = async () => {
+        try {
+            return await AsyncStorage.getItem('@user');
+        } catch (e) {
+            return null;
+        }
+    };
 
     useEffect(() => {
         const runAsync = async () => {
@@ -19,8 +28,15 @@ const SplashScreen = ({navigation}) => {
             const {data, code, message} = response;
             console.log("SplashScreen", data);
             setConfig(data);
+            const userString = await getData();
+            let screen = 'Login';
+            if(userString) {
+                const user = JSON.parse(userString);
+                setUser(user);
+                screen = 'Main';
+            }
             setTimeout(() => {
-                navigation.navigate('Log');
+                navigation.navigate(screen);
             }, 1000);
         };
         runAsync();
@@ -29,7 +45,7 @@ const SplashScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Image source={logo}/>
-            <ActivityIndicator size={'large'}/> 
+            <ActivityIndicator size={'large'}/>
             <Text style={styles.textStyle}>{nume}</Text>
         </View>
     );

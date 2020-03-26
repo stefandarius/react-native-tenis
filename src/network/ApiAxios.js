@@ -1,12 +1,24 @@
 import axios from 'axios';
 import globals from "../utils/globals";
+import AsyncStorage from "@react-native-community/async-storage";
+
+const getData = async () => {
+    try {
+        return await AsyncStorage.getItem('@user');
+    } catch (e) {
+        return null;
+    }
+};
 
 const instance = axios.create({
     baseURL: globals.WS_BASE_URL,
     timeout: 10000
 });
 
-instance.interceptors.request.use((config) => {
+instance.interceptors.request.use(async (config) => {
+    const user = JSON.parse(await getData());
+    const token = (user === null ? null : user.auth_key);
+    config.headers.Authorization = (token ? `Bearer ${token}` : '');
     return config;
 });
 
@@ -22,7 +34,11 @@ export const getLocalitatiByJudetId = async (id, pageNumber) => {
     return await instance.get(`localitati?filter[judet]=${id}&page=${pageNumber}`);
 };
 
-export const createSportiv = async (authorization, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => {
-    return await instance.post('sportivi', {headers: {'Authorization': `Bearer ${authorization}`}, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
+export const createSportiv = async (nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => {
+    return await instance.post('sportivi', {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
+};
+
+export const loginUser = async (email, password) => {
+    return await instance.get(`users/login/${email}/${password}`);
 };
 
