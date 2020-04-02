@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         padding: 50
     },
     profileDetails: {
-        backgroundColor: "red",
+        backgroundColor: "indigo",
         borderWidth: 0,
         borderRadius: 10,
         shadowColor: "#000",
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
         marginBottom: 15
     },
     text: {
-        color: 'white'
+        color: 'white',
+        fontWeight: 'bold',
     },
     imageProfile: {
         width: 70,

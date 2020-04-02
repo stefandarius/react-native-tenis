@@ -66,14 +66,16 @@ const MainNavigator = createMaterialBottomTabNavigator({
         screen: ListaNavigator,
         navigationOptions: {
             title: "Lista Sportivi",
-            tabBarIcon: ({tintColor}) => <FontAwesome name={"list-alt"} size={25} color={tintColor}/>
+            tabBarIcon: ({tintColor}) => <FontAwesome name={"list-alt"} size={25} color={tintColor}/>,
+            tabBarColor: '#2796D6'
         }
     },
     ProfilUtilizator: {
         screen: ProfilNavigator,
         navigationOptions: {
             title: "Profil",
-            tabBarIcon: ({tintColor}) => <FontAwesome name={"user-o"} size={25} color={tintColor}/>
+            tabBarIcon: ({tintColor}) => <FontAwesome name={"user-o"} size={25} color={tintColor}/>,
+            tabBarColor: 'indigo'
         }
     }
 }, {
@@ -81,7 +83,7 @@ const MainNavigator = createMaterialBottomTabNavigator({
     activeColor: '#ffffff',
     inactiveColor: '#024f9e',
     labeled: true,
-    shifting: false,
+    shifting: true,
     barStyle: {
         backgroundColor: '#2796D6',
         height: 80
