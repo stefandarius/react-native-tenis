@@ -7,13 +7,9 @@
  */
 
 import React from 'react';
-import {
-    StyleSheet,
-    StatusBar, View, SafeAreaView,
-} from 'react-native';
+import {StatusBar} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SportiviList from "./src/components/SportiviList";
 import SplashScreen from "./src/screens/SplashScreen";
@@ -22,7 +18,6 @@ import {createAppContainer, createSwitchNavigator} from "react-navigation";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import ProfilForm from "./src/components/ProfilForm";
 import {TenisProvider} from "./src/context/AppContext";
-import MainScreen from "./src/screens/MainScreen";
 import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
 import ProfilScreen from "./src/screens/ProfilScreen";
 
@@ -89,22 +84,6 @@ const MainNavigator = createMaterialBottomTabNavigator({
         height: 80
     }
 });
-//     createStackNavigator({
-//     Lista: {
-//         screen: SportiviList
-//     },
-//     MainS: {
-//         screen: MainScreen
-//     },
-//     Profil: {
-//         screen: ProfilForm,
-//         navigationOptions: {
-//             headerShown: false
-//         }
-//     }
-// }, {
-//     initialRouteName: 'MainS'
-// });
 
 const Switch = createSwitchNavigator({
     Splash: {
