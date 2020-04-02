@@ -11,6 +11,7 @@ import {
     StyleSheet,
     StatusBar, View, SafeAreaView,
 } from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import LoginScreen from './src/screens/LoginScreen';
@@ -22,6 +23,8 @@ import RegisterScreen from "./src/screens/RegisterScreen";
 import ProfilForm from "./src/components/ProfilForm";
 import {TenisProvider} from "./src/context/AppContext";
 import MainScreen from "./src/screens/MainScreen";
+import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
+import ProfilScreen from "./src/screens/ProfilScreen";
 
 const LoginNavigator = createStackNavigator({
     Log: {
@@ -38,22 +41,68 @@ const LoginNavigator = createStackNavigator({
     }
 });
 
-const MainNavigator = createStackNavigator({
-    Lista: {
-        screen: SportiviList
-    },
-    MainS: {
-        screen: MainScreen
-    },
+const ListaNavigator = createStackNavigator({
     Profil: {
         screen: ProfilForm,
         navigationOptions: {
             headerShown: false
         }
+    },
+    Lista: {
+        screen: SportiviList
     }
 }, {
-    initialRouteName: 'MainS'
+    initialRouteName: 'Lista'
 });
+
+const ProfilNavigator = createStackNavigator({
+    ProfilUser: {
+        screen: ProfilScreen
+    }
+});
+
+const MainNavigator = createMaterialBottomTabNavigator({
+    ListaSportivi: {
+        screen: ListaNavigator,
+        navigationOptions: {
+            title: "Lista Sportivi",
+            tabBarIcon: ({tintColor}) => <FontAwesome name={"list-alt"} size={25} color={tintColor}/>
+        }
+    },
+    ProfilUtilizator: {
+        screen: ProfilNavigator,
+        navigationOptions: {
+            title: "Profil",
+            tabBarIcon: ({tintColor}) => <FontAwesome name={"user-o"} size={25} color={tintColor}/>
+        }
+    }
+}, {
+    initialRouteName: 'ListaSportivi',
+    activeColor: '#ffffff',
+    inactiveColor: '#024f9e',
+    labeled: true,
+    shifting: false,
+    barStyle: {
+        backgroundColor: '#2796D6',
+        height: 80
+    }
+});
+//     createStackNavigator({
+//     Lista: {
+//         screen: SportiviList
+//     },
+//     MainS: {
+//         screen: MainScreen
+//     },
+//     Profil: {
+//         screen: ProfilForm,
+//         navigationOptions: {
+//             headerShown: false
+//         }
+//     }
+// }, {
+//     initialRouteName: 'MainS'
+// });
 
 const Switch = createSwitchNavigator({
     Splash: {
@@ -70,51 +119,10 @@ const AppContainer = createAppContainer(Switch);
 const App = () => {
     return (
         <TenisProvider>
-            <SafeAreaView style={{flex: 1}}>
-                <StatusBar barStyle="dark-content" backgroundColor="white"/>
-                <AppContainer/>
-            </SafeAreaView>
+            <StatusBar barStyle="dark-content" backgroundColor="white"/>
+            <AppContainer/>
         </TenisProvider>
     );
 };
-
-const styles = StyleSheet.create({
-    scrollView: {
-        backgroundColor: Colors.lighter,
-    },
-    engine: {
-        position: 'absolute',
-        right: 0,
-    },
-    body: {
-        backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600',
-        color: Colors.black,
-    },
-    sectionDescription: {
-        marginTop: 8,
-        fontSize: 18,
-        fontWeight: '400',
-        color: Colors.dark,
-    },
-    highlight: {
-        fontWeight: '700',
-    },
-    footer: {
-        color: Colors.dark,
-        fontSize: 12,
-        fontWeight: '600',
-        padding: 4,
-        paddingRight: 12,
-        textAlign: 'right',
-    },
-});
 
 export default App;

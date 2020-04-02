@@ -37,7 +37,7 @@ const SplashScreen = ({navigation}) => {
             }
             setTimeout(() => {
                 navigation.navigate(screen);
-            }, 1000);
+            }, 10);
         };
         runAsync();
     }, []);

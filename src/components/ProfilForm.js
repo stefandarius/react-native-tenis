@@ -8,6 +8,7 @@ import {createSportiv, getLocalitatiByJudetId} from "../network/ApiAxios";
 import WaitAction from "./WaitAction";
 import LabelHeader from "./LabelHeader";
 import AsyncStorage from "@react-native-community/async-storage";
+import moment from "moment";
 
 const ProfilForm = ({navigation}) => {
 
@@ -86,7 +87,8 @@ const ProfilForm = ({navigation}) => {
     };
 
     const saveProfile = async () => {
-        const registerResponse = await createSportiv(nume, prenume, '18.05.2001', nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+        const registerResponse = await createSportiv(nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
+            nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
         const response = registerResponse.data;
         const {data, success, message} = response;
         if(success) {
@@ -144,8 +146,8 @@ const ProfilForm = ({navigation}) => {
                     display={"calendar"}
                     maximumDate={new Date()}
                     style={{width: '100%', paddingHorizontal: 10}}
-                    onChange={date => setDataNastere(date)}
-                    value={new Date()}
+                    onChange={(event, date) => setDataNastere(date)}
+                    value={dataNastere}
                  />
                 <ButtonGroup buttons={['Barbat', 'Femeie']} onPress={setGen} selectedIndex={gen}/>
                 <Spacer marginVertical={10}/>
