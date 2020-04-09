@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from "react-native";
 import {withNavigation} from "react-navigation";
 import LabelHeader from "../components/LabelHeader";
@@ -7,6 +7,7 @@ import Spacer from "../components/Spacer";
 import HyperLink from "../components/HyperLink";
 import {createUser} from "../network/ApiAxios";
 import AsyncStorage from '@react-native-community/async-storage';
+import AppContext from "../context/AppContext";
 
 const RegisterScreen = ({navigation}) => {
 
@@ -17,6 +18,8 @@ const RegisterScreen = ({navigation}) => {
     const [errorMessage, setErrorMessage] = useState("Parola incorecta");
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [loading, setLoading] = useState(false);
+
+    const {setUser} = useContext(AppContext);
 
     const validate = () => {
         if (password === confirm) {
@@ -45,9 +48,10 @@ const RegisterScreen = ({navigation}) => {
             console.log("RegisterScreen", email);
             if (success) {
                 console.log("RegisterScreen", data);
+                setUser(data);
                 await storeData(data);
                 setLoading(false);
-                navigation.navigate('Main');
+                navigation.navigate('Profil');
             } else {
                 setError(true);
                 setErrorMessage(message);

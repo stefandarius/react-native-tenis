@@ -26,7 +26,7 @@ const ProfilForm = ({navigation}) => {
     const [stareSanatate, setStareSanatate] = useState(0);
     const [nivel, setNivel] = useState(0);
 
-    const {data} = useContext(AppContext);
+    const {data, user, setUser} = useContext(AppContext);
 
     const storeData = async (profil) => {
         try {
@@ -93,7 +93,11 @@ const ProfilForm = ({navigation}) => {
         const {data, success, message} = response;
         if(success) {
             await storeData(data);
-            navigation.pop();
+            setUser({
+                ...user,
+                detalii: data
+            });
+            navigation.navigate("Main");
         } else {
             Alert.alert(message);
         }

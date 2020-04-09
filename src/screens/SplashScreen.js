@@ -5,21 +5,13 @@ import logo from '../assets/logo.png';
 import {getAppConfig} from "../network/ApiAxios";
 import AppContext from "../context/AppContext";
 import AsyncStorage from '@react-native-community/async-storage';
+import {getDataForKey} from "../utils/Utility";
 
 const SplashScreen = ({navigation}) => {
 
-    const [visible, setVisible] = useState(true);
     const [nume, setNume] = useState('Fana');
 
     const {setConfig, setUser} = useContext(AppContext);
-
-    const getData = async () => {
-        try {
-            return await AsyncStorage.getItem('@user');
-        } catch (e) {
-            return null;
-        }
-    };
 
     useEffect(() => {
         const runAsync = async () => {
@@ -28,16 +20,19 @@ const SplashScreen = ({navigation}) => {
             const {data, code, message} = response;
             console.log("SplashScreen", data);
             setConfig(data);
-            const userString = await getData();
+            const user = await getDataForKey('user');
+            console.log('USER', user);
             let screen = 'Login';
-            if(userString) {
-                const user = JSON.parse(userString);
+            if(user) {
                 setUser(user);
-                screen = 'Main';
+                screen = 'Profil';
+                if(user.detalii) {
+                    screen = 'Main';
+                }
             }
             setTimeout(() => {
                 navigation.navigate(screen);
-            }, 10);
+            }, 100);
         };
         runAsync();
     }, []);

@@ -4,9 +4,6 @@ import {
     View,
     Image,
     Alert,
-    TouchableOpacity,
-    Text,
-    StatusBar,
     TextInput,
     Platform,
     TouchableWithoutFeedback, Keyboard
@@ -17,8 +14,8 @@ import LabelHeader from "../components/LabelHeader";
 import HyperLink from "../components/HyperLink";
 import AppContext from "../context/AppContext";
 import Spacer from "../components/Spacer";
-import AsyncStorage from "@react-native-community/async-storage";
 import {loginUser} from "../network/ApiAxios";
+import {storeDataForKey} from "../utils/Utility";
 
 const LoginScreen = ({navigation}) => {
 
@@ -26,15 +23,7 @@ const LoginScreen = ({navigation}) => {
     const [pressed, setPressed] = useState(false);
     const [password, setPassword] = useState("");
 
-    const {data, setUser} = useContext(AppContext);
-
-    const storeData = async (user) => {
-        try {
-            await AsyncStorage.setItem('@user', JSON.stringify(user))
-        } catch (e) {
-            console.error('LoginScreen', e);
-        }
-    };
+    const {data, setUser, setProfil} = useContext(AppContext);
 
     useEffect(() => {
         console.log("LoginScreen", data);
@@ -47,7 +36,8 @@ const LoginScreen = ({navigation}) => {
         const response = userResponse.data;
         const {data, success, message} = response;
         if (success) {
-            await storeData(data);
+            await storeDataForKey(data, 'user');
+            setUser(data);
             setPressed(false);
             navigation.navigate('Main');
         } else {

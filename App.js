@@ -33,16 +33,16 @@ const LoginNavigator = createStackNavigator({
         navigationOptions: {
             headerShown: false
         }
-    }
-});
-
-const ListaNavigator = createStackNavigator({
+    },
     Profil: {
         screen: ProfilForm,
         navigationOptions: {
             headerShown: false
         }
-    },
+    }
+});
+
+const ListaNavigator = createStackNavigator({
     Lista: {
         screen: SportiviList
     }
@@ -52,7 +52,10 @@ const ListaNavigator = createStackNavigator({
 
 const ProfilNavigator = createStackNavigator({
     ProfilUser: {
-        screen: ProfilScreen
+        screen: ProfilScreen,
+        navigationOptions: {
+            headerShown: false
+        }
     }
 });
 
@@ -70,13 +73,13 @@ const MainNavigator = createMaterialBottomTabNavigator({
         navigationOptions: {
             title: "Profil",
             tabBarIcon: ({tintColor}) => <FontAwesome name={"user-o"} size={25} color={tintColor}/>,
-            tabBarColor: 'indigo'
+            tabBarColor: '#3060d1'
         }
     }
 }, {
     initialRouteName: 'ListaSportivi',
     activeColor: '#ffffff',
-    inactiveColor: '#024f9e',
+    inactiveColor: '#d8dde8',
     labeled: true,
     shifting: true,
     barStyle: {
