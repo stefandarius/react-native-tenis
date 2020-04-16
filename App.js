@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {StatusBar} from 'react-native';
+import {Alert, StatusBar} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import LoginScreen from './src/screens/LoginScreen';
@@ -20,6 +20,8 @@ import ProfilForm from "./src/components/ProfilForm";
 import {TenisProvider} from "./src/context/AppContext";
 import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom-tabs";
 import ProfilScreen from "./src/screens/ProfilScreen";
+import UserDetailsScreen from "./src/screens/UserDetailsScreen";
+import EditButton from "./src/components/EditButton";
 
 const LoginNavigator = createStackNavigator({
     Log: {
@@ -44,7 +46,13 @@ const LoginNavigator = createStackNavigator({
 
 const ListaNavigator = createStackNavigator({
     Lista: {
-        screen: SportiviList
+        screen: SportiviList,
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#2796D6',
+            },
+            headerTintColor: 'white'
+        }
     }
 }, {
     initialRouteName: 'Lista'
@@ -56,8 +64,35 @@ const ProfilNavigator = createStackNavigator({
         navigationOptions: {
             headerShown: false
         }
+    },
+    UserDetails: {
+        screen: UserDetailsScreen,
+        navigationOptions: ({navigation}) => ({
+            title: "User Details",
+            headerStyle: {
+                backgroundColor: '#3060d1',
+                height: 100
+            },
+            headerTitleStyle: {
+                fontSize: 30
+            },
+            headerTintColor: 'white',
+            headerRight: () => <EditButton navigation={navigation} />,
+        })
+    },
+    ProfilForm: {
+        screen: ProfilForm,
+        navigationOptions: {
+            headerShown: true
+        }
     }
+}, {
+    initialRouteName: 'ProfilUser'
 });
+
+const editHandler = () => {
+    Alert.alert("Edit");
+};
 
 const MainNavigator = createMaterialBottomTabNavigator({
     ListaSportivi: {

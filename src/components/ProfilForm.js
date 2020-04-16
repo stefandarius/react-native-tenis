@@ -4,11 +4,12 @@ import {Button, ButtonGroup, Input, Text} from "react-native-elements";
 import Spacer from "./Spacer";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import AppContext from "../context/AppContext";
-import {createSportiv, getLocalitatiByJudetId} from "../network/ApiAxios";
+import {createSportiv, getLocalitatiByJudetId, updateSportiv} from "../network/ApiAxios";
 import WaitAction from "./WaitAction";
 import LabelHeader from "./LabelHeader";
 import AsyncStorage from "@react-native-community/async-storage";
 import moment from "moment";
+import {getDataForKey, storeDataForKey} from "../utils/Utility";
 
 const ProfilForm = ({navigation}) => {
 
@@ -25,20 +26,33 @@ const ProfilForm = ({navigation}) => {
     const [loading, setLoading] = useState(false);
     const [stareSanatate, setStareSanatate] = useState(0);
     const [nivel, setNivel] = useState(0);
+    const [editMode, setEditMode] = useState(false);
 
     const {data, user, setUser} = useContext(AppContext);
 
-    const storeData = async (profil) => {
-        try {
-            await AsyncStorage.setItem('@profil', JSON.stringify(profil))
-        } catch (e) {
-            console.error('LoginScreen', e);
-        }
-    };
+    const {detalii} = user;
+    const {profil} = detalii;
 
     useEffect(() => {
-
-    }, [data]);
+        const fillForm = async () => {
+            if (detalii) {
+                setEditMode(true);
+                setNume(profil.nume);
+                setPrenume(profil.prenume);
+                setGen(profil.gen);
+                //setDataNastere(moment(profil.data_nastere).utc().format());
+                setTelefon(profil.telefon);
+                setJudet(profil.judet);
+                await fetchLocalitati(profil.judet);
+                setLocalitate(profil.localitate);
+                setNivel(detalii.nivel);
+                setStareSanatate(detalii.stare_sanatate);
+                setInaltime(detalii.inaltime.toString());
+                setGreutate(detalii.greutate.toString());
+            }
+        };
+        fillForm();
+    }, []);
 
     const renderJudete = () => {
         return data.judete.map((item) => {
@@ -87,16 +101,27 @@ const ProfilForm = ({navigation}) => {
     };
 
     const saveProfile = async () => {
-        const registerResponse = await createSportiv(nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
-            nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+        let registerResponse;
+        console.log("SAVE profil form", gen);
+        if (!setEditMode) {
+            registerResponse = await createSportiv(nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
+                nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+        } else {
+            registerResponse = await updateSportiv(detalii.id, nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
+                nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+        }
         const response = registerResponse.data;
         const {data, success, message} = response;
-        if(success) {
-            await storeData(data);
+        if (success) {
+            await storeDataForKey('profil', data);
             setUser({
                 ...user,
                 detalii: data
             });
+            if (setEditMode) {
+                navigation.pop();
+                return;
+            }
             navigation.navigate("Main");
         } else {
             Alert.alert(message);
@@ -135,7 +160,7 @@ const ProfilForm = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <ScrollView style={{width: "100%"}} >
+            <ScrollView style={{width: "100%"}}>
                 <Spacer marginVertical={20}/>
                 <LabelHeader textSize={24} style={{fontWeight: 'bold'}}>Detalii profil</LabelHeader>
                 <Spacer marginVertical={20}/>
@@ -152,8 +177,8 @@ const ProfilForm = ({navigation}) => {
                     style={{width: '100%', paddingHorizontal: 10}}
                     onChange={(event, date) => setDataNastere(date)}
                     value={dataNastere}
-                 />
-                <ButtonGroup buttons={['Barbat', 'Femeie']} onPress={setGen} selectedIndex={gen}/>
+                />
+                <ButtonGroup buttons={['Femeie', 'Barbat']} onPress={setGen} selectedIndex={gen}/>
                 <Spacer marginVertical={10}/>
                 {detaliiSportivi(true)}
                 <View style={styles.dropDown}>

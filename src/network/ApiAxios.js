@@ -38,6 +38,10 @@ export const createSportiv = async (nume, prenume, data_nastere, nivel, greutate
     return await instance.post('sportivi', {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
 };
 
+export const updateSportiv = async (id, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => {
+    return await  instance.post(`sportivi/${id}`, {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex});
+};
+
 export const loginUser = async (email, password) => {
     return await instance.get(`users/login/${email}/${password}`);
 };

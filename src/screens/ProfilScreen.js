@@ -1,6 +1,5 @@
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet, View, Dimensions, Image, Alert} from "react-native";
-import PropTypes from 'prop-types';
 import {Text} from "react-native-elements";
 import BigButton from "../components/BigButton";
 import AppContext from "../context/AppContext";
@@ -23,12 +22,11 @@ const ProfilScreen = ({navigation}) => {
             'Log Out?',
             'Are you sure you want to log out? You will need to log in again to use the app.',
             [
-                //{text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'OK', onPress: async () => {
                         await removeDataForKey('user');
-                        setUser(null);
                         navigation.navigate('Splash');
+                        setUser(null);
                     }},
             ],
             { cancelable: false }
@@ -45,7 +43,7 @@ const ProfilScreen = ({navigation}) => {
             </View>
             <View style={{flexDirection: 'row'}}>
                 <BigButton
-                    clicked={() => Alert.alert("apasat")}
+                    clicked={() => navigation.navigate("UserDetails")}
                     text={"User Details"}
                     style={{width: wwidth / 3}}
                     src={{uri: "https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/hint.png"}}

@@ -23,7 +23,7 @@ const SplashScreen = ({navigation}) => {
             const user = await getDataForKey('user');
             console.log('USER', user);
             let screen = 'Login';
-            if(user) {
+            if(user !== null) {
                 setUser(user);
                 screen = 'Profil';
                 if(user.detalii) {
