@@ -22,31 +22,31 @@ instance.interceptors.request.use(async (config) => {
     return config;
 });
 
-export const getAppConfig = async () => {
-    return await instance.get('config');
-};
+export const getAppConfig = async () => (
+    await instance.get('config')
+);
 
-export const createUser = async (email, password, accountType) => {
-    return await instance.post('users', {email, password, type: accountType === 0 ? 'antrenor' : 'sportiv'});
-};
+export const createUser = async (email, password, accountType) => (
+    await instance.post('users', {email, password, type: accountType === 0 ? 'antrenor' : 'sportiv'})
+);
 
-export const getLocalitatiByJudetId = async (id, pageNumber) => {
-    return await instance.get(`localitati?filter[judet]=${id}&page=${pageNumber}`);
-};
+export const getLocalitatiByJudetId = async (id, pageNumber) => (
+    await instance.get(`localitati?filter[judet]=${id}&page=${pageNumber}`)
+);
 
-export const createSportiv = async (nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => {
-    return await instance.post('sportivi', {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
-};
+export const createSportiv = async (nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => (
+    await instance.post('sportivi', {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
+);
 
-export const updateSportiv = async (id, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => {
-    return await  instance.post(`sportivi/${id}`, {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex});
-};
+export const updateSportiv = async (id, nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex) => (
+    await  instance.post(`sportivi/${id}`, {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
+);
 
-export const loginUser = async (email, password) => {
-    return await instance.get(`users/login/${email}/${password}`);
-};
+export const loginUser = async (email, password) => (
+    await instance.get(`users/login/${email}/${password}`)
+);
 
-export const getDetaliiUser = async (id) => {
-    return await instance.get(`users/${id}`);
-};
+export const getDetaliiUser = async (id) => (
+    await instance.get(`users/${id}`)
+);
 
