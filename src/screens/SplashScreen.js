@@ -2,10 +2,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import logo from '../assets/logo.png';
-import {getAppConfig} from "../network/ApiAxios";
+import {getAppConfig, getDetaliiSportiv, getDetaliiUser} from "../network/ApiAxios";
 import AppContext from "../context/AppContext";
 import AsyncStorage from '@react-native-community/async-storage';
-import {getDataForKey} from "../utils/Utility";
+import {getDataForKey, storeDataForKey} from "../utils/Utility";
 
 const SplashScreen = ({navigation}) => {
 
@@ -24,7 +24,11 @@ const SplashScreen = ({navigation}) => {
             console.log('USER', user);
             let screen = 'Login';
             if(user !== null) {
-                setUser(user);
+                const userResponse = await getDetaliiUser(user.id);
+                const {data} = userResponse.data;
+                setUser(data);
+                await storeDataForKey('user', data);
+                console.log("Splash screen", data);
                 screen = 'Profil';
                 if(user.detalii) {
                     screen = 'Main';

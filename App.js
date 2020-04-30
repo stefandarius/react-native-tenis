@@ -7,8 +7,9 @@
  */
 
 import React from 'react';
-import {Alert, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import LoginScreen from './src/screens/LoginScreen';
 import SportiviList from "./src/components/SportiviList";
@@ -22,6 +23,7 @@ import {createMaterialBottomTabNavigator} from "react-navigation-material-bottom
 import ProfilScreen from "./src/screens/ProfilScreen";
 import UserDetailsScreen from "./src/screens/UserDetailsScreen";
 import EditButton from "./src/components/EditButton";
+import AntrenamenteScreen from "./src/screens/AntrenamenteScreen";
 
 const LoginNavigator = createStackNavigator({
     Log: {
@@ -58,6 +60,20 @@ const ListaNavigator = createStackNavigator({
     initialRouteName: 'Lista'
 });
 
+const AntrenamenteNavigator = createStackNavigator({
+    Lista: {
+        screen: AntrenamenteScreen,
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: 'white',
+            },
+            title: "Antrenamente",
+            headerTintColor: 'black'
+        },
+    },
+    initialRouteName: 'Lista'
+});
+
 const ProfilNavigator = createStackNavigator({
     ProfilUser: {
         screen: ProfilScreen,
@@ -90,10 +106,6 @@ const ProfilNavigator = createStackNavigator({
     initialRouteName: 'ProfilUser'
 });
 
-const editHandler = () => {
-    Alert.alert("Edit");
-};
-
 const MainNavigator = createMaterialBottomTabNavigator({
     ListaSportivi: {
         screen: ListaNavigator,
@@ -109,6 +121,14 @@ const MainNavigator = createMaterialBottomTabNavigator({
             title: "Profil",
             tabBarIcon: ({tintColor}) => <FontAwesome name={"user-o"} size={25} color={tintColor}/>,
             tabBarColor: '#3060d1'
+        }
+    },
+    Antrenamente: {
+        screen: AntrenamenteNavigator,
+        navigationOptions: {
+            title: "Antrenamente",
+            tabBarIcon: ({tintColor}) => <MaterialCommunityIcons name={"tennis"} size={25} color={tintColor}/>,
+            tabBarColor: '#1ab5ff'
         }
     }
 }, {

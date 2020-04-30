@@ -40,7 +40,7 @@ const ProfilForm = ({navigation}) => {
                 setNume(profil.nume);
                 setPrenume(profil.prenume);
                 setGen(profil.gen);
-                //setDataNastere(moment(profil.data_nastere).utc().format());
+                setDataNastere(moment(profil.data_nastere).format('YYYY-MM-DD'));
                 setTelefon(profil.telefon);
                 setJudet(profil.judet);
                 await fetchLocalitati(profil.judet);

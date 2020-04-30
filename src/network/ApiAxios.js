@@ -46,3 +46,7 @@ export const loginUser = async (email, password) => {
     return await instance.get(`users/login/${email}/${password}`);
 };
 
+export const getDetaliiUser = async (id) => {
+    return await instance.get(`users/${id}`);
+};
+
