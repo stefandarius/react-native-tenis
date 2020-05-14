@@ -24,6 +24,8 @@ import ProfilScreen from "./src/screens/ProfilScreen";
 import UserDetailsScreen from "./src/screens/UserDetailsScreen";
 import EditButton from "./src/components/EditButton";
 import AntrenamenteScreen from "./src/screens/AntrenamenteScreen";
+import AntrenamenteListScreen from "./src/screens/AntrenamenteListScreen";
+import ProfilFormAntrenor from "./src/screens/ProfilFormAntrenor";
 
 const LoginNavigator = createStackNavigator({
     Log: {
@@ -43,7 +45,13 @@ const LoginNavigator = createStackNavigator({
         navigationOptions: {
             headerShown: false
         }
-    }
+    },
+    ProfilAntrenor: {
+        screen: ProfilFormAntrenor,
+        navigationOptions: {
+            headerShown: false
+        }
+    },
 });
 
 const ListaNavigator = createStackNavigator({
@@ -62,13 +70,13 @@ const ListaNavigator = createStackNavigator({
 
 const AntrenamenteNavigator = createStackNavigator({
     Lista: {
-        screen: AntrenamenteScreen,
+        screen: AntrenamenteListScreen,
         navigationOptions: {
             headerStyle: {
-                backgroundColor: 'white',
+                backgroundColor: '#3060d1',
             },
             title: "Antrenamente",
-            headerTintColor: 'black'
+            headerTintColor: 'white'
         },
     },
     initialRouteName: 'Lista'
@@ -101,7 +109,13 @@ const ProfilNavigator = createStackNavigator({
         navigationOptions: {
             headerShown: true
         }
-    }
+    },
+    ProfilAntrenor: {
+        screen: ProfilFormAntrenor,
+        navigationOptions: {
+            headerShown: false
+        }
+    },
 }, {
     initialRouteName: 'ProfilUser'
 });

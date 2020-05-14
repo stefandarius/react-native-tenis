@@ -7,13 +7,15 @@ import {Rating} from "react-native-elements";
 import GrandSlam from '../assets/undraw_grand_slam_0q5r.svg';
 import Spacer from "./Spacer";
 
-const AntrenamentItem = ({navigation, date, type, rating}) => {
+const AntrenamentItem = props => {
+    const {navigation} = props;
+    const {date, type, rating} = props.item;
     return (
         <View style={styles.card}>
             <View style={{color: '#ffffff', width: '70%', alignItems: 'flex-start'}}>
                 <Text style={styles.text}>Tip antrenament: {type}</Text>
                 <Spacer />
-                <Text style={styles.text}>Data: {date}</Text>
+                <Text style={styles.text}>Data: {moment(date).format("DD.MM.YYYY")}</Text>
                 <Rating
                     type="star"
                     readonly

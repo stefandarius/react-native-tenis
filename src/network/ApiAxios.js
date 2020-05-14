@@ -42,6 +42,14 @@ export const updateSportiv = async (id, nume, prenume, data_nastere, nivel, greu
     await  instance.post(`sportivi/${id}`, {nume, prenume, data_nastere, nivel, greutate, inaltime, stare_sanatate, telefon, localitate, sex})
 );
 
+export const createAntrenor = async (nume, prenume, data_nastere, telefon, localitate, gen) => (
+    await instance.post('antrenori', {nume, prenume, data_nastere, telefon, localitate, gen})
+);
+
+export const updateAntrenor = async (id, nume, prenume, data_nastere, telefon, localitate, gen) => (
+    await  instance.post(`antrenori/${id}`, {nume, prenume, data_nastere, telefon, localitate, gen})
+);
+
 export const loginUser = async (email, password) => (
     await instance.get(`users/login/${email}/${password}`)
 );

@@ -16,7 +16,7 @@ const UserDetailsScreen = () => {
         <View style={styles.container}>
             <View style={styles.card}>
                 <LabelHeader textSize={30}>Personal details</LabelHeader>
-                <Spacer />
+                <Spacer/>
                 <View style={{borderBottomWidth: 2}}/>
                 <Text style={styles.text}>Name: {profil.prenume}</Text>
                 <Text style={styles.text}>Surname: {profil.nume}</Text>
@@ -25,9 +25,10 @@ const UserDetailsScreen = () => {
                 <Text style={styles.text}>Phone number: {profil.telefon}</Text>
                 <Text style={styles.text}>City: {profil.localitateText}</Text>
             </View>
+            {user.rol === "sportiv" &&
             <View style={styles.card}>
                 <LabelHeader textSize={30}>Training details</LabelHeader>
-                <Spacer />
+                <Spacer/>
                 <View style={{borderBottomWidth: 2}}/>
                 <Text style={styles.text}>Level: {detalii.nivelText}</Text>
                 <Text style={styles.text}>Health state: {detalii.stareSanatateText}</Text>
@@ -35,6 +36,7 @@ const UserDetailsScreen = () => {
                 <Text style={styles.text}>Height: {detalii.inaltime} cm</Text>
                 <Text style={styles.text}>Weight: {detalii.greutate} kg</Text>
             </View>
+            }
         </View>
     );
 };

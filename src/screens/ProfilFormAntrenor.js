@@ -1,42 +1,41 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Alert, Picker, ScrollView, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Button, ButtonGroup, Input, Text} from "react-native-elements";
-import Spacer from "./Spacer";
+import Spacer from "../components/Spacer";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AppContext from "../context/AppContext";
-import {createSportiv, getLocalitatiByJudetId, updateSportiv} from "../network/ApiAxios";
-import WaitAction from "./WaitAction";
-import LabelHeader from "./LabelHeader";
-import AsyncStorage from "@react-native-community/async-storage";
+import {
+    createAntrenor,
+    getLocalitatiByJudetId,
+    updateAntrenor,
+} from "../network/ApiAxios";
+import WaitAction from "../components/WaitAction";
+import LabelHeader from "../components/LabelHeader";
 import moment from "moment";
-import {getDataForKey, storeDataForKey} from "../utils/Utility";
+import {storeDataForKey} from "../utils/Utility";
 
-const ProfilForm = ({navigation}) => {
+const ProfilFormAntrenor = ({navigation}) => {
 
     const [nume, setNume] = useState('');
     const [prenume, setPrenume] = useState('');
     const [telefon, setTelefon] = useState('');
     const [gen, setGen] = useState(0);
     const [dataNastere, setDataNastere] = useState(new Date());
-    const [greutate, setGreutate] = useState('');
-    const [inaltime, setInaltime] = useState('');
     const [judet, setJudet] = useState(0);
     const [localitate, setLocalitate] = useState(0);
     const [localitati, setLocalitati] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [stareSanatate, setStareSanatate] = useState(0);
-    const [nivel, setNivel] = useState(0);
     const [editMode, setEditMode] = useState(false);
     const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
     const {data, user, setUser} = useContext(AppContext);
 
     const {detalii} = user;
+    const {profil} = detalii;
 
     useEffect(() => {
         const fillForm = async () => {
             if (detalii) {
-                const {profil} = detalii;
                 setEditMode(true);
                 setNume(profil.nume);
                 setPrenume(profil.prenume);
@@ -46,10 +45,6 @@ const ProfilForm = ({navigation}) => {
                 setJudet(profil.judet);
                 await fetchLocalitati(profil.judet);
                 setLocalitate(profil.localitate);
-                setNivel(detalii.nivel);
-                setStareSanatate(detalii.stare_sanatate);
-                setInaltime(detalii.inaltime.toString());
-                setGreutate(detalii.greutate.toString());
             }
         };
         fillForm();
@@ -63,18 +58,6 @@ const ProfilForm = ({navigation}) => {
 
     const renderLocalitati = () => {
         return localitati.map((item) => {
-            return <Picker.Item label={item.nume} value={item.id} key={item.id}/>;
-        });
-    };
-
-    const renderStariSanatate = () => {
-        return data.stariSanatate.map((item) => {
-            return <Picker.Item label={item.nume} value={item.id} key={item.id}/>;
-        });
-    };
-
-    const renderNiveluri = () => {
-        return data.niveluri.map((item) => {
             return <Picker.Item label={item.nume} value={item.id} key={item.id}/>;
         });
     };
@@ -104,19 +87,20 @@ const ProfilForm = ({navigation}) => {
     const saveProfile = async () => {
         let registerResponse;
         if (!setEditMode) {
-            registerResponse = await createSportiv(nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
-                nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+            registerResponse = await createAntrenor(nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
+                telefon, localitate, gen);
         } else {
-            registerResponse = await updateSportiv(detalii.id, nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
-                nivel, greutate, inaltime, stareSanatate, telefon, localitate, gen);
+            registerResponse = await updateAntrenor(detalii.profil.id, nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
+                telefon, localitate, gen);
         }
         const response = registerResponse.data;
         const {data, success, message} = response;
+        console.log("Update antrenor", data, success, message);
         if (success) {
-            await storeDataForKey('profil', data);
+            await storeDataForKey('profil', {profil: data, id: data.id});
             setUser({
                 ...user,
-                detalii: data
+                detalii: {profil: data, id: data.id}
             });
             if (setEditMode) {
                 navigation.pop();
@@ -126,36 +110,6 @@ const ProfilForm = ({navigation}) => {
         } else {
             Alert.alert(message);
         }
-    };
-
-    const detaliiSportivi = (afiseaza) => {
-        return afiseaza ?
-            <View>
-                <Input value={inaltime} keyboardType={"numeric"} label="Inaltime" onChangeText={setInaltime}/>
-                <Input value={greutate} keyboardType={"numeric"} label="Greutate" onChangeText={setGreutate}/>
-                <View style={styles.dropDown}>
-                    <Picker
-                        style={styles.picker}
-                        itemStyle={styles.pickerItem}
-                        selectedValue={stareSanatate}
-                        onValueChange={itemValue => setStareSanatate(itemValue)}
-                    >
-                        <Picker.Item label="--Selectati stare sanatate--" value={0} key={0}/>
-                        {renderStariSanatate()}
-                    </Picker>
-                </View>
-                <View style={styles.dropDown}>
-                    <Picker
-                        style={styles.picker}
-                        itemStyle={styles.pickerItem}
-                        selectedValue={nivel}
-                        onValueChange={itemValue => setNivel(itemValue)}
-                    >
-                        <Picker.Item label="--Selectati nivel--" value={0} key={0}/>
-                        {renderNiveluri()}
-                    </Picker>
-                </View>
-            </View> : null;
     };
 
     const handleConfirm = (date) => {
@@ -188,7 +142,6 @@ const ProfilForm = ({navigation}) => {
                 </TouchableOpacity>
                 <ButtonGroup buttons={['Femeie', 'Barbat']} onPress={setGen} selectedIndex={gen}/>
                 <Spacer marginVertical={10}/>
-                {detaliiSportivi(true)}
                 <View style={styles.dropDown}>
                     <Picker
                         style={styles.picker}
@@ -196,7 +149,7 @@ const ProfilForm = ({navigation}) => {
                         selectedValue={judet}
                         onValueChange={async (itemValue) => {
                             setJudet(itemValue);
-                            fetchLocalitati(itemValue);
+                            await fetchLocalitati(itemValue);
                             console.log(itemValue);
                         }}
                     >
@@ -225,10 +178,6 @@ const ProfilForm = ({navigation}) => {
         </View>
     );
 };
-
-ProfilForm.defaultProps = {};
-
-ProfilForm.propTypes = {};
 
 const styles = StyleSheet.create({
     container: {
@@ -263,4 +212,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfilForm;
+export default ProfilFormAntrenor;

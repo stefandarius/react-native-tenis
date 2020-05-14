@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, TouchableOpacity, View} from "react-native";
-import PropTypes from 'prop-types';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import AppContext from "../context/AppContext";
 
 const EditButton = ({navigation}) => {
 
+    const {user} = useContext(AppContext);
+
     const editHandler = () => {
-          navigation.navigate('ProfilForm');
+        const screen = user.rol === 'sportiv' ? "ProfilForm" : "ProfilAntrenor"
+        navigation.navigate(screen);
     };
 
     return (
