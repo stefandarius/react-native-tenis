@@ -39,7 +39,8 @@ const LoginScreen = ({navigation}) => {
             await storeDataForKey(data, 'user');
             setUser(data);
             setPressed(false);
-            navigation.navigate('Main');
+            console.log("Login screen", data);
+            navigation.navigate(data.detalii.profil ? 'Main' : data.rol ? 'Profil' : 'ProfilAntrenor');
         } else {
             Alert.alert(message);
             setPressed(false);

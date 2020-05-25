@@ -35,7 +35,7 @@ const ProfilFormAntrenor = ({navigation}) => {
 
     useEffect(() => {
         const fillForm = async () => {
-            if (detalii) {
+            if (profil) {
                 setEditMode(true);
                 setNume(profil.nume);
                 setPrenume(profil.prenume);
@@ -86,7 +86,8 @@ const ProfilFormAntrenor = ({navigation}) => {
 
     const saveProfile = async () => {
         let registerResponse;
-        if (!setEditMode) {
+        console.log("Detalii profil", editMode);
+        if (!editMode) {
             registerResponse = await createAntrenor(nume, prenume, moment(dataNastere).format("DD.MM.YYYY"),
                 telefon, localitate, gen);
         } else {
@@ -102,7 +103,7 @@ const ProfilFormAntrenor = ({navigation}) => {
                 ...user,
                 detalii: {profil: data, id: data.id}
             });
-            if (setEditMode) {
+            if (editMode) {
                 navigation.pop();
                 return;
             }

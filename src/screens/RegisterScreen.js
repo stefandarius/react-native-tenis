@@ -51,7 +51,7 @@ const RegisterScreen = ({navigation}) => {
                 setUser(data);
                 await storeData(data);
                 setLoading(false);
-                navigation.navigate('Profil');
+                navigation.navigate(data.rol === 'sportiv' ? 'Profil' : 'ProfilAntrenor');
             } else {
                 setError(true);
                 setErrorMessage(message);

@@ -30,7 +30,7 @@ const SplashScreen = ({navigation}) => {
                 await storeDataForKey('user', data);
                 console.log("Splash screen", data);
                 screen = user.rol === "sportiv" ? 'Profil' : 'ProfilAntrenor';
-                if(user.detalii) {
+                if(user.detalii.profil) {
                     screen = 'Main';
                 }
             }
