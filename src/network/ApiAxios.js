@@ -58,3 +58,4 @@ export const getDetaliiUser = async (id) => (
     await instance.get(`users/${id}`)
 );
 
+

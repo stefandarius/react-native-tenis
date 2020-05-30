@@ -26,6 +26,7 @@ import EditButton from "./src/components/EditButton";
 import AntrenamenteScreen from "./src/screens/AntrenamenteScreen";
 import AntrenamenteListScreen from "./src/screens/AntrenamenteListScreen";
 import ProfilFormAntrenor from "./src/screens/ProfilFormAntrenor";
+import AddAntrenamentScreen from "./src/screens/AddAntrenamentScreen";
 
 const LoginNavigator = createStackNavigator({
     Log: {
@@ -76,6 +77,16 @@ const AntrenamenteNavigator = createStackNavigator({
                 backgroundColor: '#3060d1',
             },
             title: "Antrenamente",
+            headerTintColor: 'white'
+        },
+    },
+    Adaugare: {
+        screen: AddAntrenamentScreen,
+        navigationOptions: {
+            headerStyle: {
+                backgroundColor: '#3060d1',
+            },
+            title: "Adaugare Antrenament",
             headerTintColor: 'white'
         },
     },

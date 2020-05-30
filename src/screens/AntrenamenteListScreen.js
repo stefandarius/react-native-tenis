@@ -6,8 +6,9 @@ import moment from "moment";
 import Spacer from "../components/Spacer";
 import LabelHeader from "../components/LabelHeader";
 import CalendarStrip from "react-native-calendar-strip/src/CalendarStrip";
+import Fab from "../components/Fab";
 
-const AntrenamenteListScreen = () => {
+const AntrenamenteListScreen = ({navigation}) => {
 
     const [date, setDate] = useState(new Date());
     const [records, setRecords] = useState([]);
@@ -70,6 +71,9 @@ const AntrenamenteListScreen = () => {
                 keyExtractor={item => item.id.toString()}
                 contentContainerStyle={{flexGrow: 1, paddingHorizontal: 20}}
             />
+            <Fab clicked={() => {
+                navigation.navigate('Adaugare', {data: {action: true, title: "Adauga Antrenament"}})
+            }}/>
         </View>
     );
 };
