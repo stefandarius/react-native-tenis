@@ -8,6 +8,7 @@ import {Button, Input, Slider, Text} from "react-native-elements";
 import moment from "moment";
 import {Rating} from "react-native-ratings";
 import Spacer from "../components/Spacer";
+import {addAntrenament} from "../network/ApiAxios";
 
 const AddAntrenamentScreen = ({navigation}) => {
     const {action, title} = navigation.getParam('data', null);
@@ -44,8 +45,8 @@ const AddAntrenamentScreen = ({navigation}) => {
         setDataAntrenament(date);
     };
 
-    const handleSave = () => {
-
+    const handleSave = async () => {
+        const data = await addAntrenament()
     };
 
     return (
@@ -149,9 +150,9 @@ const styles = StyleSheet.create({
     bottom: {
         position: 'absolute',
         bottom: 10,
+        right: 10,
+        padding: 10,
         width: '100%',
-        paddingRight: 0,
-        paddingLeft: 10,
     }
 });
 
