@@ -12,7 +12,7 @@ import {addAntrenament, getSportivi} from "../network/ApiAxios";
 
 const AddAntrenamentScreen = ({navigation}) => {
     const {action, title} = navigation.getParam('data', null);
-    const {data} = useContext(AppContext);
+    const {data, setAntrenament} = useContext(AppContext);
 
     const [dataAntrenament, setDataAntrenament] = useState(new Date());
     const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
@@ -56,6 +56,7 @@ const AddAntrenamentScreen = ({navigation}) => {
         const response = await addAntrenament(sportiv, tipAntrenament, gradDificultate, moment(dataAntrenament).format("DD.MM.YYYY HH:mm:ss"));
         const {data, success, message} = response.data;
         if (success) {
+            setAntrenament();
             setLoading(false);
             navigation.pop();
             return;
