@@ -9,13 +9,13 @@ import Spacer from "./Spacer";
 
 const AntrenamentItem = props => {
     const {navigation} = props;
-    const {date, type, rating} = props.item;
+    const {tipAntrenament_text, data_antrenament, rating} = props.item;
     return (
         <View style={styles.card}>
             <View style={{color: '#ffffff', width: '70%', alignItems: 'flex-start'}}>
-                <Text style={styles.text}>Tip antrenament: {type}</Text>
+                <Text style={styles.text}>Tip antrenament: {tipAntrenament_text}</Text>
                 <Spacer />
-                <Text style={styles.text}>Data: {moment(date).format("DD.MM.YYYY")}</Text>
+                <Text style={styles.text}>Data: {moment(data_antrenament).format("DD.MM.YYYY")}</Text>
                 <Rating
                     type="star"
                     readonly

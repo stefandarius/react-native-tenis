@@ -58,9 +58,10 @@ export const getDetaliiUser = async (id) => (
     await instance.get(`users/${id}`)
 );
 
-export const addAntrenament = async (sportiv_id, tipAntrenament_id, grad_dificultate, rating, data_antrenament) => (
-    await instance.post('istoric-antrenament', {sportiv_id, tipAntrenament_id, grad_dificultate, rating, data_antrenament})
-);
+export const addAntrenament = async (sportiv_id, tipAntrenament_id, grad_dificultate, data_antrenament) => {
+    console.log(data_antrenament);
+    return await instance.post('istoric-antrenament', {sportiv_id, tipAntrenament_id, grad_dificultate, data_antrenament})
+};
 
 export const getAntrenamentById = async id => (
     await instance.get(`istoric-antrenament/${id}`)
@@ -70,3 +71,10 @@ export const updateAntrenament = async (id, sportiv_id, tipAntrenament_id, grad_
     await instance.post(`istoric-antrenament/${id}`, {sportiv_id, tipAntrenament_id, grad_dificultate, rating, data_antrenament})
 );
 
+export const getSportivi = async () => (
+    await instance.get('antrenori/lista-sportivi')
+);
+
+export const getAntrenamente = async () => (
+    await instance.get('istoric-antrenament')
+);

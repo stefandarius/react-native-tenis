@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {Picker, StyleSheet, TouchableOpacity, View} from "react-native";
+import React, {useContext, useEffect, useState} from 'react';
+import {Alert, Picker, StyleSheet, TouchableOpacity, View} from "react-native";
 import PropTypes from 'prop-types';
 import LabelHeader from "../components/LabelHeader";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -8,7 +8,7 @@ import {Button, Input, Slider, Text} from "react-native-elements";
 import moment from "moment";
 import {Rating} from "react-native-ratings";
 import Spacer from "../components/Spacer";
-import {addAntrenament} from "../network/ApiAxios";
+import {addAntrenament, getSportivi} from "../network/ApiAxios";
 
 const AddAntrenamentScreen = ({navigation}) => {
     const {action, title} = navigation.getParam('data', null);
@@ -20,13 +20,19 @@ const AddAntrenamentScreen = ({navigation}) => {
     const [gradDificultate, setGradDificultate] = useState(0);
     const [rating, setRating] = useState(0);
     const [sportiv, setSportiv] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [sportivi, setSportivi] = useState([]);
 
     const dificultate = ["usor", "mediu", "intens", "profesionist"];
 
-    const sportivi = [
-        {id: 0, numeComplet: "Stefan Iordache"},
-        {id: 1, numeComplet: "Catalin Balea"}
-    ];
+    useEffect(() => {
+        const runAsync = async () => {
+            const response = await getSportivi();
+            const {data} = response.data;
+            setSportivi(data);
+        };
+        runAsync();
+    }, []);
 
     const renderTipuriAntrenamente = () => {
         return data.tipAntrenament.map((item) => {
@@ -36,7 +42,7 @@ const AddAntrenamentScreen = ({navigation}) => {
 
     const renderSportivi = () => {
         return sportivi.map((item) => {
-            return <Picker.Item label={item.numeComplet} value={item.id} key={item.id}/>;
+            return <Picker.Item label={item.profil.nume + " " + item.profil.prenume} value={item.profil.id} key={item.profil.id}/>;
         });
     };
 
@@ -46,7 +52,16 @@ const AddAntrenamentScreen = ({navigation}) => {
     };
 
     const handleSave = async () => {
-        const data = await addAntrenament()
+        setLoading(true);
+        const response = await addAntrenament(sportiv, tipAntrenament, gradDificultate, moment(dataAntrenament).format("DD.MM.YYYY HH:mm:ss"));
+        const {data, success, message} = response.data;
+        if (success) {
+            setLoading(false);
+            navigation.pop();
+            return;
+        }
+        setLoading(false);
+        Alert.alert("Eroare la salvare", message);
     };
 
     return (
@@ -59,8 +74,7 @@ const AddAntrenamentScreen = ({navigation}) => {
                 onCancel={() => setIsDatePickerVisible(false)}
                 minimumDate={new Date()}
             />
-            <LabelHeader>{title}</LabelHeader>
-            <Spacer marginVertical={20} />
+            <Spacer marginVertical={20}/>
             <View style={styles.dropDown}>
                 <Picker
                     style={styles.picker}
@@ -107,8 +121,9 @@ const AddAntrenamentScreen = ({navigation}) => {
             </TouchableOpacity>
             <Spacer/>
             {!action && <Rating fractions={0} onFinishRating={setRating}/>}
-            <View style={styles.bottom} >
-                <Button title={"Save"} containerStyle={styles.buttonStyle} buttonStyle={{paddingRight: 0}} onPress={handleSave} />
+            <View style={styles.bottom}>
+                <Button loading={loading} title={"Save"} containerStyle={styles.buttonStyle}
+                        buttonStyle={{paddingRight: 0}} onPress={handleSave}/>
             </View>
         </View>
     );
